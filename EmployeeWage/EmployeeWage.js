@@ -10,6 +10,7 @@ const NO_WORK = 0;
 const PART_TIME = 4;
 const FULL_TIME = 8;
 const WAGE_PER_HOUR = 20;
+const WORKING_DAYS_IN_MONTH = 20;
 
 let empHours = 0;
 
@@ -41,3 +42,16 @@ if (empCheck === IS_PRESENT) {
 // Calculate Wage
 let dailyWage = empHours * WAGE_PER_HOUR;
 console.log("Daily Employee Wage: $" + dailyWage);
+
+// UC4: Calculate Monthly Wage
+let totalMonthlyWage = 0;
+for (let day = 1; day <= WORKING_DAYS_IN_MONTH; day++) {
+    let empCheck = Math.floor(Math.random() * 2); 
+    let empHours = empCheck === IS_PRESENT ? getWorkHours() : NO_WORK;
+    let dailyWage = empHours * WAGE_PER_HOUR;
+    totalMonthlyWage += dailyWage;
+
+    console.log(`Day ${day}: Hours Worked = ${empHours}, Daily Wage = $${dailyWage}`);
+}
+
+console.log("\nTotal Monthly Wage: $" + totalMonthlyWage);
