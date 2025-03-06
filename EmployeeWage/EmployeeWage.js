@@ -89,3 +89,31 @@ console.log("\nDaily Wages: ", dailyWages);
 console.log("Total Working Days: " + totalWorkingDays);
 console.log("Total Working Hours: " + totalWorkingHours);
 console.log("Total Monthly Wage: $" + totalMonthlyWage);
+
+// Calculate Total Wage using reduce()
+let totalWage = dailyWages.reduce((total, day) => total + day.wage, 0);
+console.log("\nTotal Monthly Wage: $" + totalWage);
+
+// Show the Day along with Daily Wage using map()
+let dayWiseWage = dailyWages.map(day => `Day ${day.day}: $${day.wage}`);
+console.log("\nDay-wise Wages:\n", dayWiseWage.join("\n"));
+
+// Show Days when Full Time Wage (160) was earned using filter()
+let fullTimeDays = dailyWages.filter(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
+console.log("\nDays when Full Time Wage was Earned:", fullTimeDays.map(day => day.day));
+
+// Find the first occurrence when Full Time Wage was earned using find()
+let firstFullTimeDay = dailyWages.find(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
+console.log("\nFirst Day Full Time Wage Earned:", firstFullTimeDay ? firstFullTimeDay.day : "Never");
+
+// Check if Every Element of Full Time Wage is truly holding Full Time Wage
+let allFullTime = fullTimeDays.every(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
+console.log("\nDid Employee Work Full-Time Every Time Full Wage was Given?", allFullTime);
+
+// Check if there is any Part Time Wage using some()
+let hasPartTime = dailyWages.some(day => day.wage === PART_TIME * WAGE_PER_HOUR);
+console.log("\nDid Employee Work Part-Time on Any Day?", hasPartTime);
+
+// Find the number of days the Employee Worked using filter()
+let workedDays = dailyWages.filter(day => day.wage > 0).length;
+console.log("\nTotal Days Employee Worked:", workedDays);
