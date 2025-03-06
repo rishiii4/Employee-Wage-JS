@@ -60,13 +60,13 @@ console.log("\nTotal Monthly Wage: $" + totalMonthlyWage);
 // UC5: Variables for Calculation
 let totalWorkingHours = 0;
 let totalWorkingDays = 0;
-// UC6: Store Daily Wage in Array
-let dailyWages = []; 
+
+let dailyWageMap = new Map(); 
 
 // Loop till 160 Hours or 20 Days Condition
 while (totalWorkingDays < WORKING_DAYS_IN_MONTH && totalWorkingHours < MAX_WORKING_HOURS) {
-    totalWorkingDays++; 
-    let empCheck = Math.floor(Math.random() * 2); 
+    totalWorkingDays++;
+    let empCheck = Math.floor(Math.random() * 2);
     let empHours = empCheck === IS_PRESENT ? getWorkHours() : NO_WORK;
 
     // Check if total hours exceed 160
@@ -76,44 +76,18 @@ while (totalWorkingDays < WORKING_DAYS_IN_MONTH && totalWorkingHours < MAX_WORKI
 
     totalWorkingHours += empHours;
     let dailyWage = empHours * WAGE_PER_HOUR;
-    totalMonthlyWage += dailyWage;
 
-    // Store Daily Wage in Array
-    dailyWages.push({ day: totalWorkingDays, wage: dailyWage });
-
-    console.log(`Day ${totalWorkingDays}: Hours Worked = ${empHours}, Daily Wage = $${dailyWage}, Total Hours = ${totalWorkingHours}`);
+    // Store Day-wise Wage in Map
+    dailyWageMap.set(totalWorkingDays, dailyWage);
 }
 
-// Print Daily Wages Stored in Array
-console.log("\nDaily Wages: ", dailyWages);
-console.log("Total Working Days: " + totalWorkingDays);
-console.log("Total Working Hours: " + totalWorkingHours);
-console.log("Total Monthly Wage: $" + totalMonthlyWage);
+// Compute Total Wage using Map
+let totalWage = Array.from(dailyWageMap.values()).reduce((total, wage) => total + wage, 0);
 
-// Calculate Total Wage using reduce()
-let totalWage = dailyWages.reduce((total, day) => total + day.wage, 0);
+// Print Day-wise Wage using Map
+console.log("\nDay-wise Wages:");
+dailyWageMap.forEach((wage, day) => {
+    console.log(`Day ${day}: $${wage}`);
+});
+
 console.log("\nTotal Monthly Wage: $" + totalWage);
-
-// Show the Day along with Daily Wage using map()
-let dayWiseWage = dailyWages.map(day => `Day ${day.day}: $${day.wage}`);
-console.log("\nDay-wise Wages:\n", dayWiseWage.join("\n"));
-
-// Show Days when Full Time Wage (160) was earned using filter()
-let fullTimeDays = dailyWages.filter(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
-console.log("\nDays when Full Time Wage was Earned:", fullTimeDays.map(day => day.day));
-
-// Find the first occurrence when Full Time Wage was earned using find()
-let firstFullTimeDay = dailyWages.find(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
-console.log("\nFirst Day Full Time Wage Earned:", firstFullTimeDay ? firstFullTimeDay.day : "Never");
-
-// Check if Every Element of Full Time Wage is truly holding Full Time Wage
-let allFullTime = fullTimeDays.every(day => day.wage === FULL_TIME * WAGE_PER_HOUR);
-console.log("\nDid Employee Work Full-Time Every Time Full Wage was Given?", allFullTime);
-
-// Check if there is any Part Time Wage using some()
-let hasPartTime = dailyWages.some(day => day.wage === PART_TIME * WAGE_PER_HOUR);
-console.log("\nDid Employee Work Part-Time on Any Day?", hasPartTime);
-
-// Find the number of days the Employee Worked using filter()
-let workedDays = dailyWages.filter(day => day.wage > 0).length;
-console.log("\nTotal Days Employee Worked:", workedDays);
