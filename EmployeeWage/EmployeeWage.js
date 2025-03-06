@@ -11,6 +11,7 @@ const PART_TIME = 4;
 const FULL_TIME = 8;
 const WAGE_PER_HOUR = 20;
 const WORKING_DAYS_IN_MONTH = 20;
+const MAX_WORKING_HOURS = 160;
 
 let empHours = 0;
 
@@ -55,3 +56,29 @@ for (let day = 1; day <= WORKING_DAYS_IN_MONTH; day++) {
 }
 
 console.log("\nTotal Monthly Wage: $" + totalMonthlyWage);
+
+// UC5: Variables for Calculation
+let totalWorkingHours = 0;
+let totalWorkingDays = 0;
+
+// Loop till 160 Hours or 20 Days Condition
+while (totalWorkingDays < WORKING_DAYS_IN_MONTH && totalWorkingHours < MAX_WORKING_HOURS) {
+    totalWorkingDays++; 
+    let empCheck = Math.floor(Math.random() * 2); 
+    let empHours = empCheck === IS_PRESENT ? getWorkHours() : NO_WORK;
+    
+    // Check if total hours exceed 160
+    if (totalWorkingHours + empHours > MAX_WORKING_HOURS) {
+        empHours = MAX_WORKING_HOURS - totalWorkingHours; 
+    }
+
+    totalWorkingHours += empHours;
+    let dailyWage = empHours * WAGE_PER_HOUR;
+    totalMonthlyWage += dailyWage;
+
+    console.log(`Day ${totalWorkingDays}: Hours Worked = ${empHours}, Daily Wage = $${dailyWage}, Total Hours = ${totalWorkingHours}`);
+}
+
+console.log("\nTotal Working Days: " + totalWorkingDays);
+console.log("Total Working Hours: " + totalWorkingHours);
+console.log("Total Monthly Wage: $" + totalMonthlyWage);
